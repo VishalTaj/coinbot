@@ -15,7 +15,8 @@ config :coinbot, CoinbotWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "HliFYkR+I17xwRl6hL3Md8qrj3W3upEQ4X3VPwf1i4q838btY8cK4RKYrobiys5D",
   render_errors: [view: CoinbotWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Coinbot.PubSub],
+  pubsub: [name: Coinbot.PubSub, adapter: Phoenix.PubSub.PG2,
+  pool_size: 1 ],
   live_view: [signing_salt: "I/V4kDvt"]
 
 # Configures Elixir's Logger

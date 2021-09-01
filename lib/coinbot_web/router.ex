@@ -17,10 +17,20 @@ defmodule CoinbotWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/privacy_policy", PageController, :privacy_policy
+    get "/service_url", PageController, :service_url
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", CoinbotWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", CoinbotWeb do
+    pipe_through :api
+
+    resources "/messenger", MessengerController, only: [:index]
+
+    get "/webhook", MessengerController, :verify
+    post "/webhook", MessengerController, :receive_message
+    post "/send_msg", MessengerController, :send_msg
+    get "/search_coin", MessengerController, :search_coin
+    get "/get_coin", MessengerController, :get_coin
+  end
 end

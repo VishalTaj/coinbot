@@ -18,3 +18,19 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+
+
+*This is the place where i will be sharing my progress for this application*
+
+usefull links inorder for me to make the application up:
+https://www.rootstrap.com/blog/phoenix-for-rails-developers-a-practical-example-part-1/
+https://thoughtbot.com/blog/building-a-phoenix-json-api
+
+
+## running application
+
+
+```bash
+$ source .env && mix phx.server`
+```
