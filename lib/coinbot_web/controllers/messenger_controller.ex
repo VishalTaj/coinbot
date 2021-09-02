@@ -16,8 +16,19 @@ defmodule CoinbotWeb.MessengerController do
     IO.inspect(entries)
     Enum.each(entries, fn entry ->
       event = Map.get(entry, "messaging") |> Enum.at(0)
-      %{"message" => message, "sender" => %{"id" => id}} = event
-      Survey.get_questions(id, message)
+      cond do
+      Map.has_key?(event, "message") ->
+        %{"message" => message, "sender" => %{"id" => id}} = event
+        Survey.get_questions(id, message)
+      Map.has_key?(event, "postback") ->
+        %{"postback" => %{ "payload" => message }, "sender" => %{"user_ref" => id}} = event
+        if message == "STARTUP" do
+          Survey.get_questions(id, %{})
+        end
+      true ->
+        "do nothing"
+      end
+      
     end)
 
     text conn, "EVENT_RECEIVED"
@@ -28,9 +39,8 @@ defmodule CoinbotWeb.MessengerController do
   """
   def send_message(conn, _params) do
     %{"psid" => id, "message" => message} = _params
-    {:ok, response} = Chatbot.Services.Messenger.send_message(id, message)
+    {:ok, response} = CoinbotWeb.Services.Messenger.send_message(id, message)
     resp_body = Jason.encode!(response.body)
-    # Base.render_json(conn, response.status_code || 200, resp_body)
 
     render conn, "send_message.json", resp_body
   end
@@ -44,22 +54,30 @@ defmodule CoinbotWeb.MessengerController do
     IO.inspect(verify_token)
     if (mode == "subscribe" and token == verify_token) do
       IO.inspect("Webhook verified")
-      # Base.render_string(conn, 200, challenge)
       send_resp(conn, 200, challenge)
     else
       IO.inspect("Unauthorized echo")
-      # Base.render_string(conn, 403, "Unauthorized")
       send_resp(conn, 403, "Unauthorized")
     end
   end
 
   def search_coin(conn, _params) do
     coins = CoinGecko.search_coin(_params["query"], Map.get(_params, "type", "id"))
+    # 3684472808319284 "109656651425367"
+    IO.inspect(coins)
+    CoinbotWeb.Services.Messenger.template_list("3684472808319284", coins)
     render conn, "search_coin.json", %{coins: coins}
   end
 
   def get_coin(conn, _params) do
     coin = CoinGecko.get_coin(_params["id"])
     render conn, "get_coin.json", %{coin: coin}
+  end
+
+  def market_chart(conn, _params) do
+    charts = CoinGecko.get_coin_market_data(_params["id"])
+
+    CoinbotWeb.Services.Messenger.market_list("3684472808319284", charts["prices"])
+    send_resp(conn, 200, "success")
   end
 end
