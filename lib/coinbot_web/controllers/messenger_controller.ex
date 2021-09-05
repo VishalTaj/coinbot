@@ -119,8 +119,8 @@ defmodule CoinbotWeb.MessengerController do
           message == "DEVELOPER_RESTART" ->
             Repo.update_all((from c in Conversation, where: c.sender_id == ^conversation.sender_id), set: [step: 1, last_answer: "", last_question: ""])
             get_questions(id, %{})
-          message == "HELP" ->
-            ""
+          message == "Hi" ->
+            init_conversation(id, %{text: "Hi"})
           String.starts_with?(message, "MARKETCHART_") ->
             pat = String.split(message, "_")
             coin_id = pat |> Enum.at(1)

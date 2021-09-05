@@ -30,8 +30,5 @@ defmodule CoinbotWeb.Router do
     get "/webhook", MessengerController, :verify
     post "/webhook", MessengerController, :receive_message
     post "/send_msg", MessengerController, :send_msg
-    # get "/search_coin", MessengerController, :search_coin
-    # get "/get_coin", MessengerController, :get_coin
-    # get "/get_market_chart", MessengerController, :market_chart
   end
 end

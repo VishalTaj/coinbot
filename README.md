@@ -1,36 +1,90 @@
 # Coinbot
 
-To start your Phoenix server:
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+Coinbot is a facebook chatbot which connects to coin gecko platform helps to search coin and get the market chart data.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Setup
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+Install all depoendencies
 
-## Learn more
+```bash
+  $ mix deps.get
+```
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Configure database.
 
+in `.env` file update `DATABASE_URL` with your postgres database url.
 
+Create database.
 
-*This is the place where i will be sharing my progress for this application*
+```bash
+  $ mix ecto.create
+```
 
-usefull links inorder for me to make the application up:
-https://www.rootstrap.com/blog/phoenix-for-rails-developers-a-practical-example-part-1/
-https://thoughtbot.com/blog/building-a-phoenix-json-api
+Migrate database.
 
+```bash
+  $ mix ecto.migrate
+```
 
-## running application
-
+For Running the application.
 
 ```bash
 $ source .env && mix phx.server`
 ```
+
+
+## Scope
+
+- Facebook Messenger Bot Integration
+- Coin Gecko API Integration
+
+
+### References
+
+- [CoinGecko API](https://www.coingecko.com/api/documentations/v3)
+- [Facebook Messenger Bot](https://developers.facebook.com/docs/messenger-platform)
+- [Mix](https://hexdocs.pm/phoenix/Phoenix.html)
+
+
+### Tech Stack
+
+- Phoenix Framework (Elixir)
+- Postgresql (Database)
+- Gigalixir (PAAS)
+### Endpoints
+
+```elixir
+  @doc """
+  @route GET /webhook
+  
+  facebook pings this endpoint to verify the webhook. for authentication we have a token in the header.
+  """
+  get "/webhook", MessengerController, :verify
+
+  @doc """
+  @route POST /webhook
+  
+  Facebook triggers this endpoint when a message is received.
+  there are 2 types of messages:
+  normal messages, postbacl messages
+  """
+  post "/webhook", MessengerController, :receive_message
+```
+
+
+### User Story
+
+- As a Facebook User i can interact with the coinbot.
+- As a Facebook User i can get the market chart data of a coin.
+- As a Facebook user i can search for coin by name or ID.
+
+
+
+> *Note* 
+This a experiemental application which connects with facebook messenger and integerated with CoinGecko API.
+
+
+
+
+
