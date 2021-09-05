@@ -3,9 +3,15 @@
 
 Coinbot is a facebook chatbot which connects to coin gecko platform helps to search coin and get the market chart data.
 
+
+## Preview
+
+
+[![Preview](https://s9.gifyu.com/images/Screen-Recording-2021-09-05-at-7.38.05-PM.gif)](https://gifyu.com/image/JsJ6)
+
 ## Setup
 
-Install all depoendencies
+Install all dependencies
 
 ```bash
   $ mix deps.get
