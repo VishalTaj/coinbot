@@ -6,6 +6,9 @@ defmodule CoinbotWeb.Services.Messenger do
     "user_settings" => "https://graph.facebook.com/v11.0/me/custom_user_settings?access_token=#{System.get_env("PAGE_ACCESS_TOKEN")}"
   }
 
+  @doc """
+    A Service which triggers Fb messenger quick replies api.
+  """
   def quick_replies(id, replies, question) do
     body = %{
       recipient: %{
@@ -22,12 +25,18 @@ defmodule CoinbotWeb.Services.Messenger do
     {:ok, response } = HTTPoison.post(@fb_base_uri["message"], Jason.encode!(body), headers)
   end
   
+  @doc """
+    A Service which triggers Fb messenger send message api.
+  """
   def send_message(id, message) do
     body = %{recipient: %{id: id}, message: %{text: message}, persona_id: System.get_env("PERSONA")}
     headers = [{"Content-type", "application/json"}]
-    HTTPoison.post(@fb_base_uri["message"], Jason.encode!(body), headers)
+    {:ok, response } = HTTPoison.post(@fb_base_uri["message"], Jason.encode!(body), headers)
   end
 
+  @doc """
+    A Service which triggers Fb messenger template list api.
+  """
   def template_list(id, elements) do
     body = %{
       recipient: %{
@@ -65,6 +74,10 @@ defmodule CoinbotWeb.Services.Messenger do
 
   end
 
+  @doc """
+    Generates payload for Fb messenger template list api.
+    this will return a list of elements/coins for the template list api.
+  """
   def coins_template_list(coins, id) do
     elements = Enum.map(coins, fn coin ->
       %{
@@ -87,9 +100,12 @@ defmodule CoinbotWeb.Services.Messenger do
     elements
   end
 
+  @doc """
+    Generates payload for Fb messenger persistent menu api.
+  """
   def initiate_chat_settings(sender_id) do
     body = %{
-      psid: "3684472808319284",
+      psid: sender_id,
       persistent_menu: [
         %{
             locale: "default",
@@ -97,7 +113,7 @@ defmodule CoinbotWeb.Services.Messenger do
              call_to_actions: [
                   %{
                       type: "postback",
-                      title: "Go To First Step",
+                      title: "Start Over",
                       payload: "DEVELOPER_RESTART"
                   },
                   %{

@@ -25,10 +25,7 @@ defmodule CoinbotWeb.Router do
   scope "/api", CoinbotWeb do
     pipe_through :api
 
-    resources "/messenger", MessengerController, only: [:index]
-
     get "/webhook", MessengerController, :verify
     post "/webhook", MessengerController, :receive_message
-    post "/send_msg", MessengerController, :send_msg
   end
 end

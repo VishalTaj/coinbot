@@ -1,8 +1,0 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to Coinbot" %></h1>
-  <p>A productive web framewossrk that<br/>does not compromise speed or maintainability.</p>
-</section>
-
-<section class="row">
-
-</section>

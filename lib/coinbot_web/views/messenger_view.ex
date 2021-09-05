@@ -13,10 +13,4 @@ defmodule CoinbotWeb.MessengerView do
       coins: coins
     }
   end
-
-  def render("get_coin.json", %{coin: coin }) do
-    %{ 
-      coin: coin
-    }
-  end
 end
