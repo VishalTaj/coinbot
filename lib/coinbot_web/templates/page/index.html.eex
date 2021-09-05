@@ -1,6 +1,6 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to Coinbot" %></h1>
-  <p>A productive web framework thatss<br/>does not compromise speed or maintainability.</p>
+  <p>A Facebook Messenger Chatbot <br/>Connected to Coin Gecko.</p>
 </section>
 
 <section class="row">
@@ -17,10 +17,14 @@
       chatbox.setAttribute("attribution", "biz_inbox");
       window.fbAsyncInit = function() {
         FB.init({
+          appId            : '537342050814741',
+          autoLogAppEvents : true,
           xfbml            : true,
           version          : 'v11.0'
         });
       };
+    </script>
+    <script>
       (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
